@@ -304,30 +304,30 @@
   // 目录结构。url 为空表示暂未配置链接（点击不切换）。
   const BASE = 'https://fish4.framer.website';
   const navData = [
-    { type: 'page', label: 'Home', icon: 'home', url: BASE + '/', desc: '应用根目录首页' },
-    { type: 'page', label: '/登录视频', url: BASE + '/登录视频', desc: '用户登录引导视频页面' },
-    { type: 'page', label: '/首页', url: BASE + '/首页', desc: '主页面，展示用户核心功能入口' },
+    { type: 'page', label: 'Home', icon: 'home', url: BASE + '/', desc: `可以从这里直接开始，也可以点击左侧访问对应页面查看流程\n遇到页面卡顿，可以点击页面名称边上的刷新按钮` },
+    { type: 'page', label: '/登录视频', url: BASE + '/登录视频', desc: `用户登录引导视频页面演示，可以点击跳过\n- 首次加载可能比较慢\n- 首先是品牌宣传页面，传递超级符号\n- 首次登录会进入与Agent的对话，进入人格化设置，与用户建立关系\n- 视频最后会落到新用户引导页面` },
+    { type: 'page', label: '/首页', url: BASE + '/首页', desc: `主页面，展示用户核心功能入口。\n大卡片手机上应该是拖拽操作，目前用点击后面一张卡片来模拟了拖拽效果` },
     { type: 'folder', label: '/查保单', children: [
-      { type: 'page', label: '/查收保单', url: BASE + '/查保单/查收保单', desc: '用户查收新保单的页面' },
-      { type: 'page', label: '/首页-查保单-首次', url: BASE + '/查保单/首页-查保单-首次', desc: '首次查保单的引导流程' },
-      { type: 'page', label: '/保障手册', url: BASE + '/查保单/保障手册', desc: '保障内容说明与条款解读' },
-      { type: 'page', label: '/保单详情', url: BASE + '/查保单/保单详情', desc: '单张保单的详细信息页' },
+      { type: 'page', label: '/查收保单', url: BASE + '/查保单/查收保单', desc: `用户查收新保单的页面。` },
+      { type: 'page', label: '/首页-查保单-首次', url: BASE + '/查保单/首页-查保单-首次', desc: `首次查保单的引导流程。` },
+      { type: 'page', label: '/保障手册', url: BASE + '/查保单/保障手册', desc: `保障内容说明与条款解读。` },
+      { type: 'page', label: '/保单详情', url: BASE + '/查保单/保单详情', desc: `单张保单的详细信息页。` },
     ]},
     { type: 'folder', label: '/新用户', children: [
-      { type: 'page', label: '/新手引导', url: BASE + '/新用户/新手引导', desc: '新用户首次使用的引导流程' },
-      { type: 'page', label: '/首页-新用户', url: BASE + '/新用户/首页-新用户', desc: '针对新用户的定制首页' },
+      { type: 'page', label: '/新手引导', url: BASE + '/新用户/新手引导', desc: `新用户首次使用的引导流程。` },
+      { type: 'page', label: '/首页-新用户', url: BASE + '/新用户/首页-新用户', desc: `针对新用户的定制首页。` },
     ]},
     { type: 'folder', label: '/探索发现', children: [
-      { type: 'page', label: '/发现频道', url: BASE + '/探索发现/发现频道', desc: '内容发现与推荐频道页' },
-      { type: 'page', label: '/会话列表', url: BASE + '/探索发现/会话列表', desc: 'AI 对话记录列表' },
+      { type: 'page', label: '/发现频道', url: BASE + '/探索发现/发现频道', desc: `内容发现与推荐频道页。` },
+      { type: 'page', label: '/会话列表', url: BASE + '/探索发现/会话列表', desc: `AI 对话记录列表。` },
     ]},
     { type: 'folder', label: '/保险', children: [
-      { type: 'page', label: '/保险频道', url: BASE + '/保险/保险频道', desc: '保险产品浏览与分类频道' },
-      { type: 'page', label: '/产品解读', url: BASE + '/保险/产品解读', desc: '保险产品详细解读页面' },
+      { type: 'page', label: '/保险频道', url: BASE + '/保险/保险频道', desc: `保险产品浏览与分类频道。` },
+      { type: 'page', label: '/产品解读', url: BASE + '/保险/产品解读', desc: `保险产品详细解读页面。` },
     ]},
     { type: 'folder', label: '/我的', children: [
-      { type: 'page', label: '/我的频道', url: BASE + '/我的/我的频道', desc: '个人中心与账户管理' },
-      { type: 'page', label: '/家庭保障分析', url: BASE + '/我的/家庭保障分析', desc: '家庭成员保障情况分析报告' },
+      { type: 'page', label: '/我的频道', url: BASE + '/我的/我的频道', desc: `个人中心与账户管理。` },
+      { type: 'page', label: '/家庭保障分析', url: BASE + '/我的/家庭保障分析', desc: `家庭成员保障情况分析报告。` },
     ]},
   ];
 
