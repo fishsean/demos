@@ -406,6 +406,8 @@
     } catch (e) {}
   }
 
+  marked.setOptions({ breaks: true });
+
   function flatItems(items) {
     return items.flatMap(i => i.type === 'folder' ? flatItems(i.children || []) : [i]);
   }
