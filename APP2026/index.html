@@ -151,9 +151,31 @@
   .stage {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
+    gap: 20px;
+  }
+
+  .page-info {
+    width: 375px;
+    min-height: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .page-info-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1d1d1f;
+  }
+
+  .page-info-desc {
+    font-size: 13px;
+    color: #6e6e73;
+    line-height: 1.5;
   }
 
   .device {
@@ -220,9 +242,13 @@
             <iframe id="preview" title="预览" sandbox="allow-scripts allow-forms allow-same-origin allow-popups"></iframe>
             <div class="placeholder" id="placeholder">
               <strong>375 × 812 预览框</strong>
-              <span>在左侧选择页面，或在上方输入链接</span>
+              <span>在左侧选择页面</span>
             </div>
           </div>
+        </div>
+        <div class="page-info" id="pageInfo" style="display:none">
+          <div class="page-info-title" id="pageInfoTitle"></div>
+          <div class="page-info-desc" id="pageInfoDesc"></div>
         </div>
       </div>
     </main>
@@ -232,30 +258,30 @@
   // 目录结构。url 为空表示暂未配置链接（点击不切换）。
   const BASE = 'https://colorful-coconut-513541.framer.app';
   const navData = [
-    { type: 'page', label: 'Home', icon: 'home', url: BASE + '/' },
-    { type: 'page', label: '/登录视频', url: BASE + '/登录视频' },
-    { type: 'page', label: '/首页', url: BASE + '/首页' },
+    { type: 'page', label: 'Home', icon: 'home', url: BASE + '/', desc: '应用根目录首页' },
+    { type: 'page', label: '/登录视频', url: BASE + '/登录视频', desc: '用户登录引导视频页面' },
+    { type: 'page', label: '/首页', url: BASE + '/首页', desc: '主页面，展示用户核心功能入口' },
     { type: 'folder', label: '/查保单', children: [
-      { type: 'page', label: '/查收保单', url: BASE + '/查保单/查收保单' },
-      { type: 'page', label: '/首页-查保单-首次', url: BASE + '/查保单/首页-查保单-首次' },
-      { type: 'page', label: '/保障手册', url: BASE + '/查保单/保障手册' },
-      { type: 'page', label: '/保单详情', url: BASE + '/查保单/保单详情' },
+      { type: 'page', label: '/查收保单', url: BASE + '/查保单/查收保单', desc: '用户查收新保单的页面' },
+      { type: 'page', label: '/首页-查保单-首次', url: BASE + '/查保单/首页-查保单-首次', desc: '首次查保单的引导流程' },
+      { type: 'page', label: '/保障手册', url: BASE + '/查保单/保障手册', desc: '保障内容说明与条款解读' },
+      { type: 'page', label: '/保单详情', url: BASE + '/查保单/保单详情', desc: '单张保单的详细信息页' },
     ]},
     { type: 'folder', label: '/新用户', children: [
-      { type: 'page', label: '/新手引导', url: BASE + '/新用户/新手引导' },
-      { type: 'page', label: '/首页-新用户', url: BASE + '/新用户/首页-新用户' },
+      { type: 'page', label: '/新手引导', url: BASE + '/新用户/新手引导', desc: '新用户首次使用的引导流程' },
+      { type: 'page', label: '/首页-新用户', url: BASE + '/新用户/首页-新用户', desc: '针对新用户的定制首页' },
     ]},
     { type: 'folder', label: '/探索发现', children: [
-      { type: 'page', label: '/发现频道', url: BASE + '/探索发现/发现频道' },
-      { type: 'page', label: '/会话列表', url: BASE + '/探索发现/会话列表' },
+      { type: 'page', label: '/发现频道', url: BASE + '/探索发现/发现频道', desc: '内容发现与推荐频道页' },
+      { type: 'page', label: '/会话列表', url: BASE + '/探索发现/会话列表', desc: 'AI 对话记录列表' },
     ]},
     { type: 'folder', label: '/保险', children: [
-      { type: 'page', label: '/保险频道', url: BASE + '/保险/保险频道' },
-      { type: 'page', label: '/产品解读', url: BASE + '/保险/产品解读' },
+      { type: 'page', label: '/保险频道', url: BASE + '/保险/保险频道', desc: '保险产品浏览与分类频道' },
+      { type: 'page', label: '/产品解读', url: BASE + '/保险/产品解读', desc: '保险产品详细解读页面' },
     ]},
     { type: 'folder', label: '/我的', children: [
-      { type: 'page', label: '/我的频道', url: BASE + '/我的/我的频道' },
-      { type: 'page', label: '/家庭保障分析', url: BASE + '/我的/家庭保障分析' },
+      { type: 'page', label: '/我的频道', url: BASE + '/我的/我的频道', desc: '个人中心与账户管理' },
+      { type: 'page', label: '/家庭保障分析', url: BASE + '/我的/家庭保障分析', desc: '家庭成员保障情况分析报告' },
     ]},
   ];
 
@@ -269,6 +295,9 @@
   const navEl = document.getElementById('nav');
   const preview = document.getElementById('preview');
   const placeholder = document.getElementById('placeholder');
+  const pageInfo = document.getElementById('pageInfo');
+  const pageInfoTitle = document.getElementById('pageInfoTitle');
+  const pageInfoDesc = document.getElementById('pageInfoDesc');
   let activeEl = null;
 
   function buildNav(items, parent) {
@@ -297,6 +326,9 @@
           if (activeEl) activeEl.classList.remove('active');
           row.classList.add('active');
           activeEl = row;
+          pageInfoTitle.textContent = item.label;
+          pageInfoDesc.textContent = item.desc || '';
+          pageInfo.style.display = 'flex';
         });
       }
       parent.appendChild(li);
