@@ -168,6 +168,33 @@
     align-self: center;
   }
 
+  .page-info-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .refresh-btn {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    border: none;
+    background: #e5e5ea;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #6e6e73;
+    transition: background 0.15s, transform 0.3s;
+    padding: 0;
+  }
+
+  .refresh-btn:hover { background: #d1d1d6; color: #1d1d1f; }
+  .refresh-btn.spinning svg { animation: spin 0.5s linear; }
+
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
   .page-info-title {
     font-size: 15px;
     font-weight: 600;
@@ -258,7 +285,15 @@
           </div>
         </div>
         <div class="page-info" id="pageInfo" style="display:none">
-          <div class="page-info-title" id="pageInfoTitle"></div>
+          <div class="page-info-header">
+            <div class="page-info-title" id="pageInfoTitle"></div>
+            <button class="refresh-btn" id="refreshBtn" title="刷新当前页面">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+              </svg>
+            </button>
+          </div>
           <div class="page-info-desc" id="pageInfoDesc"></div>
         </div>
       </div>
@@ -309,7 +344,15 @@
   const pageInfo = document.getElementById('pageInfo');
   const pageInfoTitle = document.getElementById('pageInfoTitle');
   const pageInfoDesc = document.getElementById('pageInfoDesc');
+  const refreshBtn = document.getElementById('refreshBtn');
   let activeEl = null;
+
+  refreshBtn.addEventListener('click', () => {
+    if (!preview.src) return;
+    refreshBtn.classList.add('spinning');
+    preview.src = preview.src;
+    setTimeout(() => refreshBtn.classList.remove('spinning'), 500);
+  });
 
   function buildNav(items, parent) {
     items.forEach(item => {
