@@ -414,23 +414,29 @@
 
   buildNav(navData, navEl);
 
+  function activateItem(item) {
+    const allRows = navEl.querySelectorAll('.nav-item:not(.folder-row)');
+    allRows.forEach(row => {
+      if (row.querySelector('.label')?.textContent === item.label) {
+        if (activeEl) activeEl.classList.remove('active');
+        row.classList.add('active');
+        activeEl = row;
+        pageInfoTitle.textContent = item.label;
+        pageInfoDesc.innerHTML = item.desc ? marked.parse(item.desc) : '';
+        pageInfo.style.display = 'flex';
+      }
+    });
+  }
+
   const params = new URLSearchParams(window.location.search);
   const initial = params.get('url');
   if (initial) {
     loadUrl(initial);
     const matched = flatItems(navData).find(i => normalizeUrl(i.url) === normalizeUrl(initial));
-    if (matched) {
-      const allRows = navEl.querySelectorAll('.nav-item:not(.folder-row)');
-      allRows.forEach(row => {
-        if (row.querySelector('.label')?.textContent === matched.label) {
-          row.classList.add('active');
-          activeEl = row;
-          pageInfoTitle.textContent = matched.label;
-          pageInfoDesc.innerHTML = matched.desc ? marked.parse(matched.desc) : '';
-          pageInfo.style.display = 'flex';
-        }
-      });
-    }
+    if (matched) activateItem(matched);
+  } else {
+    const home = flatItems(navData)[0];
+    if (home) { loadUrl(home.url); activateItem(home); }
   }
 </script>
 </body>
