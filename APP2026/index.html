@@ -406,11 +406,30 @@
     } catch (e) {}
   }
 
+  function flatItems(items) {
+    return items.flatMap(i => i.type === 'folder' ? flatItems(i.children || []) : [i]);
+  }
+
   buildNav(navData, navEl);
 
   const params = new URLSearchParams(window.location.search);
   const initial = params.get('url');
-  if (initial) { loadUrl(initial); }
+  if (initial) {
+    loadUrl(initial);
+    const matched = flatItems(navData).find(i => normalizeUrl(i.url) === normalizeUrl(initial));
+    if (matched) {
+      const allRows = navEl.querySelectorAll('.nav-item:not(.folder-row)');
+      allRows.forEach(row => {
+        if (row.querySelector('.label')?.textContent === matched.label) {
+          row.classList.add('active');
+          activeEl = row;
+          pageInfoTitle.textContent = matched.label;
+          pageInfoDesc.innerHTML = matched.desc ? marked.parse(matched.desc) : '';
+          pageInfo.style.display = 'flex';
+        }
+      });
+    }
+  }
 </script>
 </body>
 </html>
