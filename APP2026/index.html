@@ -433,7 +433,7 @@
   const initial = params.get('url');
   if (initial) {
     loadUrl(initial);
-    const matched = flatItems(navData).find(i => normalizeUrl(i.url) === normalizeUrl(initial));
+    const matched = flatItems(navData).find(i => decodeURIComponent(normalizeUrl(i.url)) === decodeURIComponent(normalizeUrl(initial)));
     if (matched) activateItem(matched);
   } else {
     const home = flatItems(navData)[0];
